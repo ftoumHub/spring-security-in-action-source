@@ -11,18 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
-public class ProjectConfig extends WebSecurityConfigurerAdapter {
+public class ProjectConfig {
 
-    @Override
     @Bean
     public UserDetailsService userDetailsService() {
         var userDetailsService = new InMemoryUserDetailsManager();
 
-        var user = User.withUsername("john")
-                .password("12345")
-                .authorities("read")
-                .build();
-
+        var user = User.withUsername("john").password("12345").authorities("read").build();
         userDetailsService.createUser(user);
 
         return userDetailsService;
@@ -31,11 +26,5 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic();
-        http.authorizeRequests().anyRequest().authenticated();
     }
 }
