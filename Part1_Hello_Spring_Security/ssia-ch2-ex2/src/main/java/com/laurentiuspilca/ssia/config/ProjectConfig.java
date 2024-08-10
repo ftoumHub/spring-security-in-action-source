@@ -15,12 +15,11 @@ public class ProjectConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        var userDetailsService = new InMemoryUserDetailsManager();
-
+        // Builds the user with a given username, password, and authorities list
         var user = User.withUsername("john").password("12345").authorities("read").build();
-        userDetailsService.createUser(user);
 
-        return userDetailsService;
+        // Adds the user to be managed by UserDetailsService
+        return new InMemoryUserDetailsManager(user);
     }
 
     @Bean
